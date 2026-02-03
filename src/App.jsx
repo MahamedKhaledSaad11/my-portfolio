@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Github, Linkedin, Mail, ExternalLink, Code2, Award, BookOpen, 
   Brain, Eye, Database, Puzzle, MessageCircle, Briefcase, 
-  Terminal, Cpu, Users, Zap, Menu, X, FileText, Activity, Layers, GitGraph 
+  Terminal, Cpu, Users, Zap, Menu, X, FileText, Activity, Layers, GitGraph,BrainCircuit
 } from 'lucide-react';
 import myPhoto from './assets/my_photo.png';
 const personalInfo = {
@@ -19,31 +19,42 @@ const personalInfo = {
 const projects = [
   {
     id: 1,
-    title: "Brain Tumor Segmentation",
-    description: "Deep learning model for automatic segmentation of brain tumors in MRI scans. Utilizes U-Net architecture for high precision medical imaging analysis.",
-    tags: ["Python", "Semantic Segmentation", "OpenCV", "Deep Learning"],
-    icon: <Brain size={24} />, 
-    githubLink: "#",
-    demoLink: "#"
-  },
-  {
-    id: 2,
     title: "Smart Entrance Gate",
-    description: "Automated entry system using Face Recognition to control gate access. Integrated with a web dashboard for monitoring logs.",
+    description: ['Built a multi-modal biometric access control system on Raspberry Pi, combining face recognition with liveness detection, fingerprint scanning, and RFID authentication.',
+      'Designed a reliable embedded architecture, using Python-based monitoring and asynchronous communication with ESP32 microcontrollers to ensure stable, continuous operation.',
+      'Delivered a full-stack management solution, featuring a real-time PyQt6 gate interface and a Django web dashboard for user management, device control, and access logs.'
+    ],
     tags: ["Python", "Django", "Face Recognition", "OpenCV"],
     icon: <Eye size={24} />, 
-    githubLink: "#",
+    githubLink: "https://github.com/MahamedKhaledSaad11/Smart_Entrance_Gate",
     demoLink: "https://drive.google.com/file/d/1tJ5ZBLZ-BkIpypTGbgq1i48K2lNjAeiW/view?usp=sharing"
   },
   {
-    id: 3,
+    id: 2,
     title: "Hospital Management System",
-    description: "Developed a full-stack Hospital Management System as both web and desktop application to enhance communication between doctors and patients.",
-    tags: ["Html", "Css", "FastAPi","SQL","Python"],
+    description: ['Developed a full-stack Hospital Management System as both a web and desktop application to enhance communication between doctors and patients.',
+      'Integrated dual platforms (web + desktop) increasing system flexibility by 60%.',
+      'Enabled 100% access to patients’ medical history and prescriptions online.',
+      'Reduced appointment booking time by 40% through automation.'
+    ],
+    tags: ["Html", "Css","Javascript","Bootstrap" ,"Django","SQLite","Python"],
     icon: <Activity size={24} />, 
-    githubLink: "#",
-    demoLink: "#"
+    githubLink: "https://github.com/MahamedKhaledSaad11/hospital-management-system",
+    demoLink: "https://mohamedkhaledsaad.pythonanywhere.com/"
+  },
+  {
+    id: 3,
+    title: "Machine Learning Automation",
+    description:['Developed a full-stack web application allowing users to upload datasets, perform feature engineering, and train complex machine learning models (Random Forest, SVM, etc.) without writing code.',
+      'Integrated dynamic visualization tools for real-time exploratory data analysis (EDA), correlation heatmaps, and model performance comparison.',
+      'Engineered a backend feature that automatically converts the user\'s visual workflow into downloadable, production-ready Python scripts.'
+    ],
+    tags:["Html", "Css","Javascript","Flask",'pandas','Scikit-Learn',"Numpy"],
+    icon: <BrainCircuit size={24} />,
+    githubLink:'https://github.com/MahamedKhaledSaad11/Auto-ML',
+    demoLink:"https://momosaad11.pythonanywhere.com/"
   }
+
 ];
 
 const experienceData = [
@@ -253,7 +264,7 @@ const Projects = ({ id }) => {
             <div key={project.id} className="group bg-slate-800 rounded-xl shadow-lg border border-slate-700 overflow-hidden hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 flex flex-col h-full">
               <div className="p-8 flex-grow">
                 <div className="flex justify-between items-start mb-4">
-                  {/* Dynamic Icon based on project type */}
+                  {/* Dynamic Icon */}
                   <div className="p-3 bg-slate-700/50 rounded-lg text-blue-400 group-hover:text-white group-hover:bg-blue-500 transition-colors duration-300">
                     {project.icon}
                   </div>
@@ -261,9 +272,20 @@ const Projects = ({ id }) => {
                 <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-slate-400 mb-6 leading-relaxed">
-                  {project.description}
-                </p>
+                
+                {/* 👇 هذا هو الجزء الذي تم تعديله ليدعم النقاط 👇 */}
+                <div className="text-slate-400 mb-6 leading-relaxed text-sm">
+                  {Array.isArray(project.description) ? (
+                    <ul className="list-disc list-inside space-y-2">
+                      {project.description.map((point, i) => (
+                        <li key={i}>{point}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{project.description}</p>
+                  )}
+                </div>
+
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.tags.map((tag, index) => (
                     <span key={index} className="px-3 py-1 bg-slate-900 text-slate-300 text-xs font-medium rounded-full border border-slate-700">
