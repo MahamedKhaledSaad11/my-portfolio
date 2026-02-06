@@ -259,59 +259,94 @@ const Projects = ({ id }) => {
           <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* تم التغيير من Grid System إلى Flex Column 
+            space-y-8: تترك مسافة رأسية بين كل مشروع والآخر
+        */}
+        <div className="space-y-8 max-w-5xl mx-auto">
           {projects.map((project) => (
-            <div key={project.id} className="group bg-slate-800 rounded-xl shadow-lg border border-slate-700 overflow-hidden hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 flex flex-col h-full">
-              <div className="p-8 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  {/* Dynamic Icon */}
-                  <div className="p-3 bg-slate-700/50 rounded-lg text-blue-400 group-hover:text-white group-hover:bg-blue-500 transition-colors duration-300">
-                    {project.icon}
+            <div 
+              key={project.id} 
+              className="group bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-700 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-900/10 transition-all duration-300 flex flex-col md:flex-row gap-8"
+            >
+              
+              {/* 1. قسم الأيقونة (العمود الأيسر) */}
+              <div className="flex-shrink-0 flex md:flex-col items-center md:items-start justify-between md:justify-start gap-4">
+                <div className="p-4 bg-slate-700/50 rounded-xl text-blue-400 group-hover:text-white group-hover:bg-blue-600 transition-colors duration-300 shadow-inner">
+                  {project.icon}
+                </div>
+                
+                {/* في الشاشات الكبيرة، نضع الروابط تحت الأيقونة لترتيب المساحة */}
+                <div className="hidden md:flex flex-col gap-3 w-full mt-4">
+                  <a 
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center px-4 py-2 text-sm font-semibold text-slate-300 bg-slate-900/50 rounded-lg hover:text-white hover:bg-slate-700 transition-all border border-slate-700"
+                  >
+                    <Github size={16} className="mr-2" /> Code
+                  </a>
+                  <a 
+                    href={project.demoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center px-4 py-2 text-sm font-semibold text-blue-400 bg-blue-900/10 rounded-lg hover:bg-blue-600 hover:text-white transition-all border border-blue-500/20 hover:border-blue-500"
+                  >
+                    Demo <ExternalLink size={16} className="ml-2" />
+                  </a>
+                </div>
+              </div>
+
+              {/* 2. قسم المحتوى (العمود الأيمن) */}
+              <div className="flex-grow">
+                <div className="flex flex-col mb-4">
+                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  
+                  {/* عرض الوصف كنقاط */}
+                  <div className="text-slate-400 leading-relaxed text-sm md:text-base">
+                    {Array.isArray(project.description) ? (
+                      <ul className="list-disc list-inside space-y-2 marker:text-blue-500/50">
+                        {project.description.map((point, i) => (
+                          <li key={i}>{point}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>{project.description}</p>
+                    )}
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
-                  {project.title}
-                </h3>
-                
-                {/* 👇 هذا هو الجزء الذي تم تعديله ليدعم النقاط 👇 */}
-                <div className="text-slate-400 mb-6 leading-relaxed text-sm">
-                  {Array.isArray(project.description) ? (
-                    <ul className="list-disc list-inside space-y-2">
-                      {project.description.map((point, i) => (
-                        <li key={i}>{point}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>{project.description}</p>
-                  )}
-                </div>
 
-                <div className="flex flex-wrap gap-2 mb-6">
+                {/* الوسوم (Tags) */}
+                <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-slate-700/50">
                   {project.tags.map((tag, index) => (
-                    <span key={index} className="px-3 py-1 bg-slate-900 text-slate-300 text-xs font-medium rounded-full border border-slate-700">
+                    <span key={index} className="px-3 py-1 bg-slate-900 text-slate-300 text-xs font-medium rounded-full border border-slate-700 hover:border-slate-500 transition-colors cursor-default">
                       {tag}
                     </span>
                   ))}
                 </div>
+
+                {/* روابط الموبايل (تظهر فقط في الشاشات الصغيرة) */}
+                <div className="flex md:hidden gap-4 mt-6">
+                   <a 
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center px-4 py-2 text-sm font-semibold text-slate-300 bg-slate-900/50 rounded-lg border border-slate-700"
+                  >
+                    <Github size={16} className="mr-2" /> Code
+                  </a>
+                  <a 
+                    href={project.demoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center px-4 py-2 text-sm font-semibold text-blue-400 bg-blue-900/10 rounded-lg border border-blue-500/20"
+                  >
+                    Demo <ExternalLink size={16} className="ml-2" />
+                  </a>
+                </div>
               </div>
-              <div className="bg-slate-800/50 px-8 py-4 border-t border-slate-700 flex justify-between items-center">
-                <a 
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center text-sm font-semibold text-slate-300 hover:text-white transition-colors"
-                >
-                  <Github size={16} className="mr-2" /> Code
-                </a>
-                <a 
-                  href={project.demoLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors"
-                >
-                  Live Demo <ExternalLink size={16} className="ml-2" />
-                </a>
-              </div>
+
             </div>
           ))}
         </div>
